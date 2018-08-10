@@ -5,7 +5,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/wpcfan/gtm-config-files.git
+          uri: https://github.com/TwigCodes/twig-config-files.git
   rabbitmq:
     host: localhost
     port: 5672
@@ -22,6 +22,13 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+management:
+  endpoints:
+    # 让所有监控接口都接受 web 访问
+    web.exposure.include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
 
 ---
 
@@ -34,10 +41,12 @@ spring:
     password: guest
 eureka:
   instance:
-    hostname: discovery
+    hostname: configsever
     leaseRenewalIntervalInSeconds: 10
     health-check-url-path: /actuator/health
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     registryFetchIntervalSeconds: 5
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+      defaultZone: http://discovery:8761/eureka/
