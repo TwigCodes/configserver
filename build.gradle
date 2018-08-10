@@ -28,25 +28,16 @@ repositories {
     mavenCentral()
 }
 
-configurations {
-    // 如果使用 undertow 或 jetty 需要把默认包含的 tomcat 排除在外
-    compile.exclude module: 'spring-boot-starter-tomcat'
-}
-
 ext {
     springCloudVersion = 'Finchley.SR1'
 }
 
 dependencies {
-    compile("org.springframework.cloud:spring-cloud-config-server")
-    compile("org.springframework.cloud:spring-cloud-config-monitor")
-    compile("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-    compile("org.springframework.cloud:spring-cloud-starter-stream-rabbit")
     compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile("org.springframework.boot:spring-boot-starter-undertow")
-    runtime('org.springframework.boot:spring-boot-devtools')
-    compileOnly("org.springframework.boot:spring-boot-configuration-processor")
-    compileOnly('org.projectlombok:lombok')
+    compile("org.springframework.cloud:spring-cloud-config-server")
+    compile("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+    compile("org.springframework.cloud:spring-cloud-config-monitor")
+    compile("org.springframework.cloud:spring-cloud-starter-stream-rabbit")
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
