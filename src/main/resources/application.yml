@@ -1,27 +1,25 @@
 spring:
-  application:
-    name: configserver
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/TwigCodes/twig-config-files.git
+  cloud.config.server.git.uri: ${CONFIG_GIT_REPO_URI:https://github.com/TwigCodes/twig-config-files.git}
   rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
 # 定义服务端口
 server:
-  port: 8888
+  port: ${SERVER_PORT:8888}
 logging:
   level:
-    org.springframework:
-      cloud: DEBUG
+    org.springframework.cloud: ERROR
+    com.twigcodes.configserver: ERROR
 eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
   client:
+    registryFetchIntervalSeconds: 5
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://${EUREKA_ZONE_HOST:localhost}:${EUREKA_ZONE_PORT:8761}/eureka/
 management:
   endpoints:
     # 让所有监控接口都接受 web 访问
@@ -34,19 +32,3 @@ management:
 
 spring:
   profiles: prod
-  rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: guest
-    password: guest
-eureka:
-  instance:
-    hostname: configsever
-    leaseRenewalIntervalInSeconds: 10
-    health-check-url-path: /actuator/health
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    registryFetchIntervalSeconds: 5
-    serviceUrl:
-      defaultZone: http://discovery:8761/eureka/
